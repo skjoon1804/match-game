@@ -1,5 +1,7 @@
 import './App.css';
 import React, {Component} from 'react';
+import StarsDisplay from './StarsDisplay';
+import PlayNumber from './PlayNumber';
 
 class App extends Component {
   constructor() {
@@ -13,14 +15,10 @@ class App extends Component {
         <div className="help">Click number(s) that sum to the number of stars</div>
         <div className="body">
           <div className="left">
-            {Array.from({length: this.state.stars}, (_, i) => 1+i).map(starId =>
-              <div className="star" key={starId}></div>
-            )}
+            <StarsDisplay count={this.state.stars}/>
           </div>
           <div className="right">
-            {Array.from({length: 9}, (_, i) => 1+i).map(number =>
-              <div className="number" key={number}>{number}</div>
-            )}
+            <PlayNumber />
           </div>
         </div>
         <div className="timer">Time Remaining: 10</div>
