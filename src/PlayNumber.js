@@ -1,10 +1,18 @@
 import React from 'react'
 
+const colors = {
+    available: "lightgray",
+    used: "lightgreen",
+    wrong: "lightcoral",
+    candidate: "deepskyblue",
+};
+
 const PlayNumber = props => (
-    <>
-    {Array.from({length: 9}, (_, i) => 1+i).map(number =>
-        <div className="number" key={number}>{number}</div>
-    )}
-    </>
+    <button 
+        className="number" 
+        style={{backgroundColor: colors[props.status]}}
+        onClick={() => props.onClick()}>
+        {props.number}
+    </button>
 );
 export default PlayNumber;
