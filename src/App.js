@@ -9,12 +9,26 @@ const App = () => {
   const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
   const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
   const [candidateNums, setCandidateNums] = useState([]);
-  const gameOver = availableNums.length === 0;
+  const [secondsLeft, setSecondsLeft] = useState(10);
+
+  useEffect(() => {
+    if (secondsLeft>0 && availableNums.length>0) {
+      const timerId = setTimeout(() => {
+        setSecondsLeft(secondsLeft-1);
+      }, 1000);
+      return () => clearTimeout(timerId);
+    }
+  })
+
+  const gameStatus = availableNums.length === 0 
+      ? 'won'
+      : secondsLeft === 0 ? 'lost' : 'active';
 
   const resetGame = () => {
     setStars(Math.floor(Math.random()*maxNum)+1);
     setAvailableNums(Array.from({length: maxNum}, (_, i) => i+1));
     setCandidateNums([]);
+    setSecondsLeft(10);
   }
 
   const candidatesAreWrong = () => {
@@ -49,7 +63,7 @@ const App = () => {
   };
 
   const onNumberClick = (number, currentStatus) => {
-    if (currentStatus == 'used') {
+    if (gameStatus !== 'active' || currentStatus == 'used') {
       return ;
     }
     const newCandidateNums = 
@@ -73,7 +87,7 @@ const App = () => {
         <div className="help">Click number(s) that sum to the number of stars</div>
         <div className="body">
           <div className="left">
-            {gameOver ? <PlayAgain onClick={resetGame}/> : <StarsDisplay count={stars}/>}
+            {gameStatus!=='active' ? <PlayAgain onClick={resetGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
           </div>
           <div className="right">
             {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
@@ -86,7 +100,7 @@ const App = () => {
             )}
           </div>
         </div>
-        <div className="timer">Time Remaining: 10</div>
+        <div className="timer">Time Remaining: {secondsLeft}</div>
       </div>
   );
 }
