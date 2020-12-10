@@ -2,6 +2,7 @@ import './App.css';
 import React, {useEffect, useState, Component} from 'react';
 import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
+import PlayAgain from './PlayAgain';
 
 const App = () => {
   const maxNum = 9;
@@ -39,7 +40,6 @@ const App = () => {
         const candidateSet = sets[j].concat(newAvailableNums[i]);
         const candidateSum = candidateSet.reduce((a,b) => a+b, 0);
         if (candidateSum <= maxNum) {
-          console.log(candidateSum);
           sets.push(candidateSet);
           sums.push(candidateSum);
         }
