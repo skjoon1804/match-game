@@ -4,8 +4,9 @@ import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
 
 const App = () => {
-  const [stars, setStars] = useState(Math.floor(Math.random()*9)+1);
-  const [availableNums, setAvailableNums] = useState(Array.from({length: 9}, (_, i) => i+1));
+  const maxNum = 9;
+  const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
+  const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
   const [candidateNums, setCandidateNums] = useState([]);
 
   const candidatesAreWrong = () => {
@@ -24,6 +25,19 @@ const App = () => {
   };
 
   const randomStar = (newAvailableNums) => {
+    const sets = [[]];
+    const sums = [];
+    for (let i=0; i<newAvailableNums.length; i++) {
+      for (let j=0, len=sets.length; j<len; j++) {
+        const candidateSet = sets[j].concat(newAvailableNums[i]);
+        const candidateSum = candidateSet.reduce((a,b) => a+b, 0);
+        if (candidateSum <= maxNum) {
+          console.log(candidateSum);
+          sets.push(candidateSet);
+          sums.push(candidateSum);
+        }
+      }
+    }
     return newAvailableNums[Math.floor(Math.random() * newAvailableNums.length)];
   };
 
@@ -31,7 +45,6 @@ const App = () => {
     if (currentStatus == 'used') {
       return ;
     }
-
     const newCandidateNums = 
       currentStatus === 'available'
         ? candidateNums.concat(number)
