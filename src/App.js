@@ -11,7 +11,42 @@ const App = () => {
   const candidatesAreWrong = () => {
     let candidateSum = candidateNums.reduce((a,b) => a+b, 0);
     return candidateSum > stars;
-  }
+  };
+
+  const numberStatus = (number) => {
+    if (!availableNums.includes(number)) {
+      return 'used';
+    }
+    if (candidateNums.includes(number)) {
+      return candidatesAreWrong() ? 'wrong' : 'candidate';
+    }
+    return 'available';
+  };
+
+  const randomStar = (newAvailableNums) => {
+    return newAvailableNums[Math.floor(Math.random() * newAvailableNums.length)];
+  };
+
+  const onNumberClick = (number, currentStatus) => {
+    if (currentStatus == 'used') {
+      return ;
+    }
+
+    const newCandidateNums = 
+      currentStatus === 'available'
+        ? candidateNums.concat(number)
+        : candidateNums.filter(cn => cn!==number);
+
+    let newCandidateSum = newCandidateNums.reduce((a,b) => a+b, 0);
+    if (newCandidateSum !== stars) {
+      setCandidateNums(newCandidateNums);
+    } else {
+      const newAvailableNums = availableNums.filter(n => !newCandidateNums.includes(n));
+      setStars(randomStar(newAvailableNums));
+      setAvailableNums(newAvailableNums);
+      setCandidateNums([]);
+    }
+  };
 
   return (
       <div className="game">
@@ -22,8 +57,12 @@ const App = () => {
           </div>
           <div className="right">
             {Array.from({length: 9}, (_, i) => 1+i).map (number =>
-               <PlayNumber status={'used'} key={number} number={number}
-                  />
+               <PlayNumber 
+                  status={numberStatus(number)} 
+                  key={number} 
+                  number={number}
+                  onClick={onNumberClick}
+                />
             )}
           </div>
         </div>
