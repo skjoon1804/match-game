@@ -8,6 +8,13 @@ const App = () => {
   const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
   const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
   const [candidateNums, setCandidateNums] = useState([]);
+  const gameOver = availableNums.length === 0;
+
+  const resetGame = () => {
+    setStars(Math.floor(Math.random()*maxNum)+1);
+    setAvailableNums(Array.from({length: maxNum}, (_, i) => i+1));
+    setCandidateNums([]);
+  }
 
   const candidatesAreWrong = () => {
     let candidateSum = candidateNums.reduce((a,b) => a+b, 0);
@@ -66,10 +73,10 @@ const App = () => {
         <div className="help">Click number(s) that sum to the number of stars</div>
         <div className="body">
           <div className="left">
-            <StarsDisplay count={stars}/>
+            {gameOver ? <PlayAgain onClick={resetGame}/> : <StarsDisplay count={stars}/>}
           </div>
           <div className="right">
-            {Array.from({length: 9}, (_, i) => 1+i).map (number =>
+            {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
                <PlayNumber 
                   status={numberStatus(number)} 
                   key={number} 
