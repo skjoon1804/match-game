@@ -4,7 +4,7 @@ import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
 import PlayAgain from './PlayAgain';
 
-const App = () => {
+const Game = (props) => {
   const maxNum = 9;
   const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
   const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
@@ -104,4 +104,4 @@ const App = () => {
       </div>
   );
 }
-export default App;
+export default Game;

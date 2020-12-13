@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import StarMatch from './StarMatch';
 
 ReactDOM.render(
-    <App />,
+  <StarMatch />,
   document.getElementById('root')
 );
