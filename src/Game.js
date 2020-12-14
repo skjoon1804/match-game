@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect, useState, Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
 import PlayAgain from './PlayAgain';
@@ -23,13 +23,6 @@ const Game = (props) => {
   const gameStatus = availableNums.length === 0 
       ? 'won'
       : secondsLeft === 0 ? 'lost' : 'active';
-
-  const resetGame = () => {
-    setStars(Math.floor(Math.random()*maxNum)+1);
-    setAvailableNums(Array.from({length: maxNum}, (_, i) => i+1));
-    setCandidateNums([]);
-    setSecondsLeft(10);
-  }
 
   const candidatesAreWrong = () => {
     let candidateSum = candidateNums.reduce((a,b) => a+b, 0);
@@ -63,7 +56,7 @@ const Game = (props) => {
   };
 
   const onNumberClick = (number, currentStatus) => {
-    if (gameStatus !== 'active' || currentStatus == 'used') {
+    if (gameStatus !== 'active' || currentStatus === 'used') {
       return ;
     }
     const newCandidateNums = 
@@ -87,7 +80,7 @@ const Game = (props) => {
         <div className="help">Click number(s) that sum to the number of stars</div>
         <div className="body">
           <div className="left">
-            {gameStatus!=='active' ? <PlayAgain onClick={resetGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
+            {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
           </div>
           <div className="right">
             {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
