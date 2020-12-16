@@ -4,7 +4,23 @@ import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
 import PlayAgain from './PlayAgain';
 
-const Game = (props) => {
+const randomStar = (newAvailableNums, maxNum) => {
+  const sets = [[]];
+  const sums = [];
+  for (let i=0; i<newAvailableNums.length; i++) {
+    for (let j=0, len=sets.length; j<len; j++) {
+      const candidateSet = sets[j].concat(newAvailableNums[i]);
+      const candidateSum = candidateSet.reduce((a,b) => a+b, 0);
+      if (candidateSum <= maxNum) {
+        sets.push(candidateSet);
+        sums.push(candidateSum);
+      }
+    }
+  }
+  return newAvailableNums[Math.floor(Math.random() * newAvailableNums.length)];
+};
+
+const useGameState = () => {
   const maxNum = 9;
   const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
   const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
@@ -19,6 +35,27 @@ const Game = (props) => {
       return () => clearTimeout(timerId);
     }
   })
+
+  const setGameState = (newCandidateNums) => {
+    let newCandidateSum = newCandidateNums.reduce((a,b) => a+b, 0);
+    if (newCandidateSum !== stars) {
+      setCandidateNums(newCandidateNums);
+    } else {
+      const newAvailableNums = availableNums.filter(n => !newCandidateNums.includes(n));
+      setStars(randomStar(newAvailableNums, maxNum));
+      setAvailableNums(newAvailableNums);
+      setCandidateNums([]);
+    }
+  };
+  return {maxNum, stars, availableNums, candidateNums, secondsLeft, setGameState};
+};
+
+const Game = (props) => {
+  const {
+    maxNum, stars,
+    availableNums, candidateNums,
+    secondsLeft, setGameState,
+  } = useGameState();
 
   const gameStatus = availableNums.length === 0 
       ? 'won'
@@ -39,22 +76,6 @@ const Game = (props) => {
     return 'available';
   };
 
-  const randomStar = (newAvailableNums) => {
-    const sets = [[]];
-    const sums = [];
-    for (let i=0; i<newAvailableNums.length; i++) {
-      for (let j=0, len=sets.length; j<len; j++) {
-        const candidateSet = sets[j].concat(newAvailableNums[i]);
-        const candidateSum = candidateSet.reduce((a,b) => a+b, 0);
-        if (candidateSum <= maxNum) {
-          sets.push(candidateSet);
-          sums.push(candidateSum);
-        }
-      }
-    }
-    return newAvailableNums[Math.floor(Math.random() * newAvailableNums.length)];
-  };
-
   const onNumberClick = (number, currentStatus) => {
     if (gameStatus !== 'active' || currentStatus === 'used') {
       return ;
@@ -64,15 +85,7 @@ const Game = (props) => {
         ? candidateNums.concat(number)
         : candidateNums.filter(cn => cn!==number);
 
-    let newCandidateSum = newCandidateNums.reduce((a,b) => a+b, 0);
-    if (newCandidateSum !== stars) {
-      setCandidateNums(newCandidateNums);
-    } else {
-      const newAvailableNums = availableNums.filter(n => !newCandidateNums.includes(n));
-      setStars(randomStar(newAvailableNums));
-      setAvailableNums(newAvailableNums);
-      setCandidateNums([]);
-    }
+    setGameState(newCandidateNums);
   };
 
   return (
