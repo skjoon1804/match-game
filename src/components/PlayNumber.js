@@ -1,4 +1,5 @@
 import React from 'react'
+import './PlayNumber.css'
 
 const colors = {
     available: "lightgray",

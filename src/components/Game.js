@@ -1,4 +1,4 @@
-import './App.css';
+import './Game.css';
 import React, {useEffect, useState} from 'react';
 import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
@@ -93,7 +93,8 @@ const Game = (props) => {
         <div className="help">Click number(s) that sum to the number of stars</div>
         <div className="body">
           <div className="left">
-            {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
+          <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/>
+            {/* {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>} */}
           </div>
           <div className="right">
             {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>

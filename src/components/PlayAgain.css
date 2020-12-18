@@ -1,0 +1,16 @@
+.game-done .message {
+  font-size: 250%;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.play-again {
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+.play-again:hover {
+  cursor: pointer;
+  color: white;
+  background-color: grey;
+}
