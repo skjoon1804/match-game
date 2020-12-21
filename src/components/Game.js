@@ -3,6 +3,17 @@ import React, {useEffect, useState} from 'react';
 import StarsDisplay from './StarsDisplay';
 import PlayNumber from './PlayNumber';
 import PlayAgain from './PlayAgain';
+import GameSettings from './GameSettings';
+
+
+// let gameSetting = "yes";
+
+const gameSetting = () => {
+  if (gameSetting==="yes")
+    return "no"
+  else
+    return "yes"
+}
 
 const randomStar = (newAvailableNums, maxNum) => {
   const sets = [[]];
@@ -22,13 +33,15 @@ const randomStar = (newAvailableNums, maxNum) => {
 
 const useGameState = () => {
   const maxNum = 9;
+  const timerTime = 10;
   const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
   const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
   const [candidateNums, setCandidateNums] = useState([]);
-  const [secondsLeft, setSecondsLeft] = useState(10);
+  const [secondsLeft, setSecondsLeft] = useState(timerTime);
 
   useEffect(() => {
-    if (secondsLeft>0 && availableNums.length>0) {
+    if (secondsLeft>0 && availableNums.length>0 && gameSetting()!=='yes') {
+    // if (secondsLeft>0 && availableNums.length>0) {
       const timerId = setTimeout(() => {
         setSecondsLeft(secondsLeft-1);
       }, 1000);
@@ -52,10 +65,14 @@ const useGameState = () => {
 
 const Game = (props) => {
   const {
-    maxNum, stars,
-    availableNums, candidateNums,
-    secondsLeft, setGameState,
-  } = useGameState();
+    maxNum, 
+    stars,
+    availableNums, 
+    candidateNums,
+    secondsLeft, 
+    setGameState,
+  } = useGameState(gameSetting);
+
 
   const gameStatus = availableNums.length === 0 
       ? 'won'
@@ -91,23 +108,25 @@ const Game = (props) => {
   return (
       <div className="game">
         <div className="help">Click number(s) that sum to the number of stars</div>
-        <div className="body">
-          <div className="left">
-          <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/>
-            {/* {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>} */}
+        {gameSetting()==='yes' ? <GameSettings onClick={gameSetting()}/> : 
+        <>
+          <div className="body">
+            <div className="left">
+              {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
+            </div>
+            <div className="right">
+              {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
+                <PlayNumber 
+                    status={numberStatus(number)} 
+                    key={number} 
+                    number={number}
+                    onClick={onNumberClick}
+                  />
+              )}
+            </div>
           </div>
-          <div className="right">
-            {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
-               <PlayNumber 
-                  status={numberStatus(number)} 
-                  key={number} 
-                  number={number}
-                  onClick={onNumberClick}
-                />
-            )}
-          </div>
-        </div>
-        <div className="timer">Time Remaining: {secondsLeft}</div>
+          <div className="timer">Time Remaining: {secondsLeft}</div>
+          </>}
       </div>
   );
 }

@@ -1,0 +1,16 @@
+.settings {
+  text-align: center;
+  border: thin solid #ddd;
+  padding: 20px 0;
+}
+
+.start-game {
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+.start-game:hover {
+  cursor: pointer;
+  color: white;
+  background-color: grey;
+}
