@@ -1,16 +1,20 @@
-.settings {
-  text-align: center;
-  border: thin solid #ddd;
-  padding: 20px 0;
+.level:hover {
+  transition: 1s;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
+  transform: scale(1.1);
+  z-index: 1;
 }
 
-.start-game {
-  background-color: white;
+.level {
   border: 1px solid black;
-  padding: 5px 10px;
+  margin: 0 4px;
 }
-.start-game:hover {
-  cursor: pointer;
-  color: white;
-  background-color: grey;
+
+.level-title {
+  font-family: "Permanent Marker", cursive;
+}
+
+.level-desc {
+  font-family: "Overpass", sans-serif;
 }
