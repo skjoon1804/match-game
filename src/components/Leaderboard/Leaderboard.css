@@ -1,0 +1,21 @@
+/* .leaderboard {
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+}
+
+.leaderboard-body {
+  display: flex;
+  margin: auto;
+}
+
+.leaderboard-level {
+  border: 1px solid gray;
+} */
+
+img {
+  max-width: 20px;
+}
