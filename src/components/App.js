@@ -1,4 +1,4 @@
-import Game from './Game.js'
+import Game from './Game/Game.js'
 import {useState} from 'react'
 
 const App = () => {

@@ -1,47 +1,23 @@
 import './Game.css';
 import React, {useEffect, useState} from 'react';
-import StarsDisplay from './StarsDisplay';
-import PlayNumber from './PlayNumber';
-import PlayAgain from './PlayAgain';
-import GameSettings from './GameSettings';
 
-
-// let gameSetting = "yes";
-
-const gameSetting = () => {
-  if (gameSetting==="yes")
-    return "no"
-  else
-    return "yes"
-}
-
-const randomStar = (newAvailableNums, maxNum) => {
-  const sets = [[]];
-  const sums = [];
-  for (let i=0; i<newAvailableNums.length; i++) {
-    for (let j=0, len=sets.length; j<len; j++) {
-      const candidateSet = sets[j].concat(newAvailableNums[i]);
-      const candidateSum = candidateSet.reduce((a,b) => a+b, 0);
-      if (candidateSum <= maxNum) {
-        sets.push(candidateSet);
-        sums.push(candidateSum);
-      }
-    }
-  }
-  return newAvailableNums[Math.floor(Math.random() * newAvailableNums.length)];
-};
+import StarsDisplay from '../StarDisplay/StarsDisplay';
+import PlayNumber from '../PlayNumber/PlayNumber';
+import PlayAgain from '../../PlayAgain/PlayAgain';
+import GameSettings from '../GameSettings/GameSettings';
+import Leaderboard from '../Leaderboard/Leaderboard'
+import utils from '../../utils'
 
 const useGameState = () => {
-  const maxNum = 9;
-  const timerTime = 10;
-  const [stars, setStars] = useState(Math.floor(Math.random()*maxNum)+1);
-  const [availableNums, setAvailableNums] = useState(Array.from({length: maxNum}, (_, i) => i+1));
+  let maxNum = 9;
+  let timerTime = 30;
+  const [stars, setStars] = useState(utils.random(1, maxNum));
+  const [availableNums, setAvailableNums] = useState(utils.range(1, maxNum));
   const [candidateNums, setCandidateNums] = useState([]);
   const [secondsLeft, setSecondsLeft] = useState(timerTime);
 
   useEffect(() => {
-    if (secondsLeft>0 && availableNums.length>0 && gameSetting()!=='yes') {
-    // if (secondsLeft>0 && availableNums.length>0) {
+    if (secondsLeft>0 && availableNums.length>0) {
       const timerId = setTimeout(() => {
         setSecondsLeft(secondsLeft-1);
       }, 1000);
@@ -50,12 +26,11 @@ const useGameState = () => {
   })
 
   const setGameState = (newCandidateNums) => {
-    let newCandidateSum = newCandidateNums.reduce((a,b) => a+b, 0);
-    if (newCandidateSum !== stars) {
+    if (utils.sum(newCandidateNums) !== stars) {
       setCandidateNums(newCandidateNums);
     } else {
       const newAvailableNums = availableNums.filter(n => !newCandidateNums.includes(n));
-      setStars(randomStar(newAvailableNums, maxNum));
+      setStars(utils.randomSumIn(newAvailableNums, maxNum));
       setAvailableNums(newAvailableNums);
       setCandidateNums([]);
     }
@@ -71,7 +46,7 @@ const Game = (props) => {
     candidateNums,
     secondsLeft, 
     setGameState,
-  } = useGameState(gameSetting);
+  } = useGameState();
 
 
   const gameStatus = availableNums.length === 0 
@@ -106,16 +81,16 @@ const Game = (props) => {
   };
 
   return (
-      <div className="game">
+    <>
+      <div className="game my-5 mx-auto h-5">
         <div className="help">Click number(s) that sum to the number of stars</div>
-        {gameSetting()==='yes' ? <GameSettings onClick={gameSetting()}/> : 
         <>
           <div className="body">
             <div className="left">
               {gameStatus!=='active' ? <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus}/> : <StarsDisplay count={stars}/>}
             </div>
             <div className="right">
-              {Array.from({length: maxNum}, (_, i) => 1+i).map (number =>
+              {utils.range(1, maxNum).map(number =>
                 <PlayNumber 
                     status={numberStatus(number)} 
                     key={number} 
@@ -126,8 +101,16 @@ const Game = (props) => {
             </div>
           </div>
           <div className="timer">Time Remaining: {secondsLeft}</div>
-          </>}
-      </div>
+        </>
+        </div>
+        <Leaderboard />
+    </>
   );
 }
 export default Game;
+
+
+// Easy - 25sec, 9 stars
+// Medium - 20sec, 12 stars
+// Hard - 20sec, 15stars
+// Crazy - 15sec, 30stars
