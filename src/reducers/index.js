@@ -9,7 +9,15 @@ const reducer = combineReducers({
                 return game;
         }
     },
-    time(time = 10, action) {
+    status(status = "setting", action) {
+        switch (action.type) {
+            case 'SET_STATUS':
+                return action.status;
+            default:
+                return status;
+        }
+    },
+    time(time = 0, action) {
         switch (action.type) {
             case 'SET_TIME':
                 return action.time;
@@ -17,10 +25,10 @@ const reducer = combineReducers({
                 return time;
         }
     },
-    stars(stars = 9, action) {
+    stars(stars = 0, action) {
         switch (action.type) {
             case 'SET_STARS':
-                return action.time;
+                return action.stars;
             default:
                 return stars;
         }

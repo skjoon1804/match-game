@@ -5,6 +5,13 @@ export const setGame = (game) => {
     }
 }
 
+export const setStatus = (status) => {
+    return {
+        type: 'SET_STATUS',
+        status
+    }
+}
+
 export const setTime = (time) => {
     return {
         type: 'SET_TIME',
@@ -38,5 +45,12 @@ export const setRecord = (name, score) => {
         type: 'SET_RECORD',
         name,
         score
+    }
+}
+
+export const setLevel = (level) => {
+    return {
+        type: 'SET_LEVEL',
+        level
     }
 }
