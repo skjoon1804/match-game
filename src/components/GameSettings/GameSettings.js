@@ -2,13 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux';
 import './GameSettings.css'
 
+import { setTime, setStars, setLevel, setStatus } from '../../actions'
 
 const GameSettings = ( {
 
     startEasy, startMedium, startHard, startCrazy
 }) => (
     <>
-    <div className='container h-100 m-auto'>
+    <div className='container h-100 d-flex flex-column justify-content-center'>
         <div className="row">
             <div className="level col-sm card p-0">
                 <div className="card-header">
@@ -26,7 +27,7 @@ const GameSettings = ( {
                         </div>               
                     </div>
                     <div className="text-center m-2">
-                        <button className="btn btn-success form-control" onClick={() => {}}>GO</button>
+                        <button className="btn btn-success form-control" onClick={() => startEasy()}>GO</button>
                     </div>
                 </div>
             </div>
@@ -46,7 +47,7 @@ const GameSettings = ( {
                         </div>               
                     </div>
                     <div className="text-center m-2">
-                        <button className="btn btn-primary form-control" onClick={() => {}}>GO</button>
+                        <button className="btn btn-primary form-control" onClick={() => startMedium()}>GO</button>
                     </div>
                 </div>
             </div>
@@ -66,7 +67,7 @@ const GameSettings = ( {
                         </div>               
                     </div>
                     <div className="text-center m-2">
-                        <button className="btn btn-danger form-control" onClick={() => {}}>GO</button>
+                        <button className="btn btn-danger form-control" onClick={() => startHard()}>GO</button>
                     </div>
                 </div>
             </div>
@@ -78,7 +79,7 @@ const GameSettings = ( {
                     <div className="level-desc py-5">
                         <div className="row justify-content-center">
                             <div className="col-6">Time</div>
-                            <div className="col-6">15 Seconds</div>
+                            <div className="col-6">10 Seconds</div>
                         </div>
                         <div className="row justify-content-center">
                             <div className="col-6">Stars</div>
@@ -86,13 +87,11 @@ const GameSettings = ( {
                         </div>               
                     </div>
                     <div className="text-center m-2">
-                        <button className="btn btn-dark form-control" onClick={() => {}}>GO</button>
+                        <button className="btn btn-dark form-control" onClick={() => startCrazy()}>GO</button>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
     </>
 );
@@ -106,17 +105,29 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        startEasy() {
-
+        startEasy() {   // Easy - 25 Sec, 9
+            dispatch(setTime(25));
+            dispatch(setStars(9));
+            dispatch(setLevel("easy"));
+            dispatch(setStatus("active"));
         },
-        startMedium() {
-
+        startMedium() { // Medium - 20 Sec, 16
+            dispatch(setTime(20));
+            dispatch(setStars(16));
+            dispatch(setLevel("medium"));
+            dispatch(setStatus("active"));
         },
-        startHard() {
-
+        startHard() {   // Hard - 15 Sec, 16
+            dispatch(setTime(15));
+            dispatch(setStars(16));
+            dispatch(setLevel("hard"));
+            dispatch(setStatus("active"));
         },
-        startCrazy() {
-
+        startCrazy() {  // Crazy = 10 Sec, 25
+            dispatch(setTime(10));
+            dispatch(setStars(25));
+            dispatch(setLevel("crazy"));
+            dispatch(setStatus("active"));
         }
     }
 }
