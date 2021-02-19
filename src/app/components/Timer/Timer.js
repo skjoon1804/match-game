@@ -7,9 +7,12 @@ const Timer = ({
 }) => {
     
     let timerPercent = (secondsLeft/time)*100 + "%";
+    const timerStyle = () => {
+        return secondsLeft <= 5 ? {color: 'red'} : null;
+    }
     return (
         <div className="m-2">
-            <div className="timer">Time Remaining: {secondsLeft}</div>
+            <div className="timer" style={timerStyle()}>Time Remaining: {secondsLeft}</div>
             <div className="progress">
                 <div className="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow={secondsLeft} 
                         aria-valuemin="0" aria-valuemax={time} style={{width: timerPercent}}>
