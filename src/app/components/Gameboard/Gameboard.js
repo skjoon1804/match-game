@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 
-import utils from '../../utils'
-import { setGame, setStatus } from '../../actions'
+import utils from '../utils'
+import { setGame, setStatus, addScore } from '../../actions'
 import { ConnectedPlayAgain } from '../PlayAgain/PlayAgain';
-import Leaderboard from '../Leaderboard/Leaderboard';
+import { ConnectedLeaderboard } from '../Leaderboard/Leaderboard';
 import { ConnectedTimer } from '../Timer/Timer';
 import StarsDisplay from '../StarDisplay/StarsDisplay';
 import PlayNumber from '../PlayNumber/PlayNumber';
+import { ConnectedScoreboard } from '../Scoreboard/Scoreboard';
+import './Gameboard.css'
 
 const Gameboard = ({
     game, status, time, maxStars, score, level,
-    startNewGame
+    startNewGame, setStatus, addScore
 }) => {
 
     const [stars, setStars] = useState(utils.random(1, maxStars));
@@ -20,11 +22,13 @@ const Gameboard = ({
     const [secondsLeft, setSecondsLeft] = useState(time);
   
     useEffect(() => {
-      if (secondsLeft>0 && availableNums.length>0 && gameStatus==='active') {
+      if (secondsLeft>0 && availableNums.length>0 && status==='active') {
         const timerId = setTimeout(() => {
           setSecondsLeft(secondsLeft-1);
         }, 1000);
         return () => clearTimeout(timerId);
+      } else if (secondsLeft === 0) {
+          setStatus("lost");
       }
     })
   
@@ -36,15 +40,18 @@ const Gameboard = ({
         setStars(utils.randomSumIn(newAvailableNums, maxStars));
         setAvailableNums(newAvailableNums);
         setCandidateNums([]);
+
+        let numAnswers = newCandidateNums.length;   // Weigh more scores if more combinations used for one number
+        addScore(numAnswers ** 2 * 100);
+
+        if (newAvailableNums.length === 0) {
+            setStatus("won");
+            addScore(secondsLeft * 100);            // Add bonus score based on time left
+        } else {
+            secondsLeft === 0 ? setStatus("lost") : setStatus("active");
+        }
       }
     };
-  
-  
-    const gameStatus = availableNums.length === 0 
-        ? 'won'
-        : secondsLeft === 0 ? 'lost' : 'active';
-  
-  
   
     const candidatesAreWrong = () => {
       let candidateSum = candidateNums.reduce((a,b) => a+b, 0);
@@ -61,7 +68,7 @@ const Gameboard = ({
     };
   
     const onNumberClick = (number, numberStatus) => {
-      if (gameStatus !== 'active' || numberStatus === 'used') {
+      if (status !== 'active' || numberStatus === 'used') {
         return ;
       }
       const newCandidateNums = 
@@ -72,14 +79,24 @@ const Gameboard = ({
       setGameState(newCandidateNums);
     };
 
+    const setGameSize = () => {
+      if (maxStars === 9) { // 3 x 3
+        return '500px';
+      } else if (maxStars === 16) { // 4 x 4
+        return '700px';
+      } else if (maxStars === 25) { // 5 x 5
+        return '800px'; 
+      }
+    }
+
     return (
         <>
-          <div className="game my-5 mx-auto h-5">
-            <div className="help">Click number(s) that sum to the number of stars</div>
+          <div className="game my-5 mx-auto h-5" style={{maxWidth: setGameSize()}}>
+            <ConnectedScoreboard />
             <>
-              <div className="body">
-                {gameStatus!=='active'
-                ? <ConnectedPlayAgain onClick={() => startNewGame(game)} gameStatus={gameStatus} className="justify-content-center"/> 
+              <div className="body mx-auto my-2 container">
+                {status!=='active'
+                ? <ConnectedPlayAgain onClick={() => startNewGame(game)} gameStatus={status} className="justify-content-center"/> 
                 :   <>
                       <div className="left">
                         <StarsDisplay count={stars}/>
@@ -97,10 +114,10 @@ const Gameboard = ({
                     </>
                 }
               </div>
-              <ConnectedTimer secondsLeft={secondsLeft}/>
             </>
-          </div>
-          {gameStatus === 'active' ? null : <Leaderboard />}
+            <ConnectedTimer secondsLeft={secondsLeft}/>
+          </div> 
+          {status === 'active' ? null : <ConnectedLeaderboard />}
         </>
     );
 }
@@ -117,6 +134,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch(setGame(game+1));
           dispatch(setStatus("setting"));
           ownProps.startNewGame();
+        },
+        setStatus(status) {
+            dispatch(setStatus(status));
+        },
+        addScore(score) {
+            dispatch(addScore(score));
         }
       }
 }

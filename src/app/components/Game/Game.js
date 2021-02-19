@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { ConnectedGameSettings } from '../GameSettings/GameSettings';
 import { ConnectedGameboard } from '../Gameboard/Gameboard';
@@ -28,11 +29,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
   }
 }
-
 export const ConnectedGame = connect(mapStateToProps, mapDispatchToProps)(Game);
-
-// status
-//  - setting
-//  - active
-//  - won
-//  - lost

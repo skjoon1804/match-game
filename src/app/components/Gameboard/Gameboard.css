@@ -1,22 +1,5 @@
-html,
-body {
-  height: 100%;
-}
-
-.game {
-  max-width: 500px;
-  /* max-width: 800px; */
-  margin: 0 auto;
-}
-
 .body {
   display: flex;
-}
-
-.help {
-  color: #666;
-  margin: 10px;
-  text-align: center;
 }
 
 .left {
