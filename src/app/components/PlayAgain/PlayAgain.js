@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import { setScore } from '../../actions'
 import './PlayAgain.css'
 
 const PlayAgain = ({
@@ -7,7 +8,7 @@ const PlayAgain = ({
     onClick
 }) => {
     return (
-        <div className="mx-auto p-5">
+        <div className="mx-auto p-5 text-center">
             <div className='m-3'>
                 {gameStatus==='lost' 
                     ? <h3 style={{color: 'red'}}>Game Over</h3>
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onClick() {
             ownProps.onClick();
+            dispatch(setScore(0));
         }
     }
 }
