@@ -5,7 +5,7 @@ import { connectDB } from './connect-db';
 import path from 'path';
 
 
-let port = process.env.PORT || 8889;
+let port = process.env.PORT || 8888;
 let app = express();
 
 app.use(
@@ -23,58 +23,94 @@ if (process.env.NODE_ENV == `production`) {
     });
 }
 
-export const addNewUser = async user => {
+export const addEasyRecord = async easy => {
     let db = await connectDB();
-    let collection = db.collection(`users`);
-    await collection.insertOne(user);
+    let collection = db.collection(`easy`);
+
+    await collection.insertOne(easy);
+    let stats = await collection.stats();
+    let size = stats.count;
+
+    if (size > 10) {
+        // TODO: remove smallest element
+
+        let temp = await collection.find({}).sort({"score": -1}).toArray();
+        console.log("xxxxxxxx")
+        console.log(temp);
+        console.log("yyyyyyyyy")
+
+
+        await collection.find({}).sort({"score":-1});
+        let b = await collection.updateOne({}, {$pop:{score: 1}});
+        console.log("ccccccccc");
+        console.log(b);
+        console.log("dddddddddddd");
+    }
+    
+
+
+    // TODO
+    // display records in order when first fetched
+
+    
+
 }
 
-export const addNewGroup = async group => {
+export const addMediumRecord = async medium => {
     let db = await connectDB();
-    let collection = db.collection(`groups`);
-    await collection.insertOne(group);
+    let collection = db.collection(`medium`);
+    // TODO
+    await collection.insertOne(medium);
+}
+
+export const addHardRecord = async hard => {
+    let db = await connectDB();
+    let collection = db.collection(`hard`);
+    // TODO
+    await collection.insertOne(hard);
+}
+
+export const addCrazyRecord = async crazy => {
+    let db = await connectDB();
+    let collection = db.collection(`crazy`);
+    // TODO
+    await collection.insertOne(crazy)
 }
 
 // -----------------------
 
+app.post('/record', async (req, res) => {
+    let db = await connectDB();
+
+    let easy = await db.collection(`easy`).find().toArray();
+    let medium = await db.collection(`medium`).find().toArray();
+    let hard = await db.collection(`hard`).find().toArray();
+    let crazy = await db.collection(`crazy`).find().toArray();
+
+    let record = { easy, medium, hard, crazy };
+    res.status(200).send(record);
+})
+
 app.post('/easy', async (req, res) => {
-    
+    let easy = req.body.easy;
+    await addEasyRecord(easy);
     res.status(200).send();
 })
 
 app.post('/medium', async (req, res) => {
-
-
+    let medium = req.body.medium;
+    await addMediumRecord(medium);
+    res.status(200).send();
 })
 
 app.post('/hard', async (req, res) => {
-
-
+    let hard = req.body.hard;
+    await addHardRecord(hard);
+    res.status(200).send();
 })
 
 app.post('/crazy', async (req, res) => {
-
-
-})
-
-
-// ---------
-
-app.post('/user/new', async (req, res) => {
-    let user = req.body.user;
-    let db = await connectDB();
-    let collection = db.collection(`users`);
-    let check = await collection.findOne({name: user.name});
-    if (check) {
-        res.status(500).send("User already exists!");
-    } else {
-        await addNewUser(user);
-        res.status(200).send();
-    }
-})
-
-app.post('/group', async (req, res) => {
-    let group = req.body.group;
-    await addNewGroup(group);
+    let crazy = req.body.crazy;
+    await addCrazyRecord(crazy);
     res.status(200).send();
 })
