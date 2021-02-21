@@ -24,76 +24,80 @@ if (process.env.NODE_ENV == `production`) {
 }
 
 export const addEasyRecord = async easy => {
+    let { level, name, score } = easy;
     let db = await connectDB();
-    let collection = db.collection(`easy`);
+    let collection = db.collection(`record`);
 
-    await collection.insertOne(easy);
-    let stats = await collection.stats();
-    let size = stats.count;
-
+    await collection.updateOne({level}, {$push: {record: {level, name, score}}});
+    let updatedEasy = await collection.find({level}).toArray();
+    
+    let size = updatedEasy[0].record.length;
     if (size > 10) {
-        // TODO: remove smallest element
-
-        let temp = await collection.find({}).sort({"score": -1}).toArray();
-        console.log("xxxxxxxx")
-        console.log(temp);
-        console.log("yyyyyyyyy")
-
-
-        await collection.find({}).sort({"score":-1});
-        let b = await collection.updateOne({}, {$pop:{score: 1}});
-        console.log("ccccccccc");
-        console.log(b);
-        console.log("dddddddddddd");
+        let sortedEasy = updatedEasy[0].record.sort((a,b) => { return b.score - a.score; });
+        let min = sortedEasy[sortedEasy.length - 1];
+        await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
     }
-    
-
-
-    // TODO
-    // display records in order when first fetched
-
-    
-
 }
 
 export const addMediumRecord = async medium => {
+    let { level, name, score } = medium;
     let db = await connectDB();
-    let collection = db.collection(`medium`);
-    // TODO
-    await collection.insertOne(medium);
+    let collection = db.collection(`record`);
+
+    await collection.updateOne({level}, {$push: {record: {level, name, score}}});
+    let updatedEasy = await collection.find({level}).toArray();
+
+    let size = updatedEasy[0].record.length;
+    if (size > 10) {
+        let sortedEasy = updatedEasy[0].record.sort((a,b) => { return b.score - a.score; });
+        let min = sortedEasy[sortedEasy.length - 1];
+        await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
+    }
 }
 
 export const addHardRecord = async hard => {
+    let { level, name, score } = hard;
     let db = await connectDB();
-    let collection = db.collection(`hard`);
-    // TODO
-    await collection.insertOne(hard);
+    let collection = db.collection(`record`);
+
+    await collection.updateOne({level}, {$push: {record: {level, name, score}}});
+    let updatedEasy = await collection.find({level}).toArray();
+
+    let size = updatedEasy[0].record.length;
+    if (size > 10) {
+        let sortedEasy = updatedEasy[0].record.sort((a,b) => { return b.score - a.score; });
+        let min = sortedEasy[sortedEasy.length - 1];
+        await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
+    }
 }
 
 export const addCrazyRecord = async crazy => {
+    let { level, name, score } = crazy;
     let db = await connectDB();
-    let collection = db.collection(`crazy`);
-    // TODO
-    await collection.insertOne(crazy)
+    let collection = db.collection(`record`);
+
+    await collection.updateOne({level}, {$push: {record: {level, name, score}}});
+    let updatedEasy = await collection.find({level}).toArray();
+
+    let size = updatedEasy[0].record.length;
+    if (size > 10) {
+        let sortedEasy = updatedEasy[0].record.sort((a,b) => { return b.score - a.score; });
+        let min = sortedEasy[sortedEasy.length - 1];
+        await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
+    }
 }
 
 // -----------------------
 
 app.post('/record', async (req, res) => {
     let db = await connectDB();
-
-    let easy = await db.collection(`easy`).find().toArray();
-    let medium = await db.collection(`medium`).find().toArray();
-    let hard = await db.collection(`hard`).find().toArray();
-    let crazy = await db.collection(`crazy`).find().toArray();
-
-    let record = { easy, medium, hard, crazy };
-    res.status(200).send(record);
+    let record = await db.collection(`record`).find().toArray();
+    res.status(200).send({record});
 })
 
 app.post('/easy', async (req, res) => {
-    let easy = req.body.easy;
-    await addEasyRecord(easy);
+    let record = req.body.record;
+    await addEasyRecord(record);
     res.status(200).send();
 })
 
