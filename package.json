@@ -22,6 +22,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "initialize": "babel-node src/server/initialize-db",
     "build": "webpack -p",
     "start": "npm run server",
     "dev": "webpack-dev-server --open",
