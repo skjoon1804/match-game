@@ -14,7 +14,6 @@ const GameSettings = ( {
     const getGameRecords = async () => {
         const { data } = await axios.post(url + "/record");
         if (!data) { throw new Error(); }
-        console.log(data);
         setState({...data});
     }
 
