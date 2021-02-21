@@ -16,25 +16,25 @@ const Leaderboard = ({
         let name = e.target[`name`].value;
 
         if (level === 'easy') {
-            addEasyRecord(name, score)
+            addEasyRecord(level, name, score)
             await axios.post(url + `/easy`, {
-                easy: { name, score }
+                record: { level, name, score }
             })
         } else if (level === 'medium') {
-            addMediumRecord(name, score)
+            addMediumRecord(level, name, score)
             await axios.post(url + `/medium`, {
-                medium: { name, score }
+                record: { level, name, score }
             })
         } else if (level === 'hard') {
-            addHardRecord(name, score)
+            addHardRecord(level, name, score)
             await axios.post(url + `/hard`, {
-                hard: { name, score }
+                record: { level, name, score }
             })
 
         } else if (level === 'crazy') {
-            addCrazyRecord(name, score)
+            addCrazyRecord(level, name, score)
             await axios.post(url + `/crazy`, {
-                crazy: { name, score }
+                record: { level, name, score }
             })
         }
         document.getElementById("overlay").style.display = "none";
@@ -113,10 +113,10 @@ const mapStateToProps = (state) => {
     let level = state.level;
     let score = state.score;
     
-    let easyGroup = state.easy;
-    let mediumGroup = state.medium;
-    let hardGroup = state.hard;
-    let crazyGroup = state.crazy;
+    let easyGroup = state.easy.sort((a,b) => { return b.score - a.score} );
+    let mediumGroup = state.medium.sort((a,b) => { return b.score - a.score} );
+    let hardGroup = state.hard.sort((a,b) => { return b.score - a.score} );
+    let crazyGroup = state.crazy.sort((a,b) => { return b.score - a.score} );
 
     return { status, level, score, easyGroup, mediumGroup, hardGroup, crazyGroup };
 }
@@ -124,17 +124,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     
     return {
-        addEasyRecord(name, score) {
-            dispatch(addEasyRecord(name, score));
+        addEasyRecord(level, name, score) {
+            dispatch(addEasyRecord(level, name, score));
         },
-        addMediumRecord(name, score) {
-            dispatch(addMediumRecord(name, score));
+        addMediumRecord(level, name, score) {
+            dispatch(addMediumRecord(level, name, score));
         },
-        addHardRecord(name, score) {
-            dispatch(addHardRecord(name, score));
+        addHardRecord(level, name, score) {
+            dispatch(addHardRecord(level, name, score));
         },
-        addCrazyRecord(name, score) {
-            dispatch(addCrazyRecord(name, score));
+        addCrazyRecord(level, name, score) {
+            dispatch(addCrazyRecord(level, name, score));
         }
     }
 }

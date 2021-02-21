@@ -62,9 +62,9 @@ const reducer = combineReducers({
     easy(easy=[], action) {
         switch (action.type) {
             case 'SET_STATE':
-                return action.state.easy;
+                return action.state.record.find(e => e.level === 'easy').record;
             case 'ADD_EASY_RECORD':
-                const easyTemp = [...easy, {name: action.name, score: action.score}];
+                const easyTemp = [...easy, {level: action.level, name: action.name, score: action.score}];
                 easyTemp.sort((a, b) => { return b.score - a.score; })
                 return (easyTemp.length > 10) ? easyTemp.slice(0, -1) : easyTemp;
             default:
@@ -74,9 +74,9 @@ const reducer = combineReducers({
     medium(medium=[], action) {
         switch (action.type) {
             case 'SET_STATE':
-                return action.state.medium;
+                return action.state.record.find(e => e.level === 'medium').record;
             case 'ADD_MEDIUM_RECORD':
-                const mediumTemp = [...medium, {name: action.name, score: action.score}];
+                const mediumTemp = [...medium, {level: action.level, name: action.name, score: action.score}];
                 mediumTemp.sort((a, b) => { return b.score - a.score; })
                 return (mediumTemp.length > 10) ? mediumTemp.slice(0, -1) : mediumTemp;
             default:
@@ -86,9 +86,9 @@ const reducer = combineReducers({
     hard(hard=[], action) {
         switch (action.type) {
             case 'SET_STATE':
-                return action.state.hard;
+                return action.state.record.find(e => e.level === 'hard').record;
             case 'ADD_HARD_RECORD':
-                const hardTemp = [...hard, {name: action.name, score: action.score}];
+                const hardTemp = [...hard, {level: action.level, name: action.name, score: action.score}];
                 hardTemp.sort((a, b) => { return b.score - a.score; })
                 return (hardTemp.length > 10) ? hardTemp.slice(0, -1) : hardTemp;
             default:
@@ -98,9 +98,9 @@ const reducer = combineReducers({
     crazy(crazy=[], action) {
         switch (action.type) {
             case 'SET_STATE':
-                return action.state.crazy;
+                return action.state.record.find(e => e.level === 'crazy').record;
             case 'ADD_CRAZY_RECORD':
-                const crazyTemp = [...crazy, {name: action.name, score: action.score}];
+                const crazyTemp = [...crazy, {level: action.level, name: action.name, score: action.score}];
                 crazyTemp.sort((a, b) => { return b.score - a.score; })
                 return (crazyTemp.length > 10) ? crazyTemp.slice(0, -1) : crazyTemp;
             default:

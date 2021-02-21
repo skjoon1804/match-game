@@ -61,30 +61,34 @@ export const setLevel = (level) => {
     }
 }
 
-export const addEasyRecord = (name, score) => {
+export const addEasyRecord = (level, name, score) => {
     return {
         type: 'ADD_EASY_RECORD',
+        level,
         name,
         score
     }
 }
-export const addMediumRecord = (name, score) => {
+export const addMediumRecord = (level, name, score) => {
     return {
         type: 'ADD_MEDIUM_RECORD',
+        level,
         name,
         score
     }
 }
-export const addHardRecord = (name, score) => {
+export const addHardRecord = (level, name, score) => {
     return {
         type: 'ADD_HARD_RECORD',
+        level, 
         name,
         score
     }
 }
-export const addCrazyRecord = (name, score) => {
+export const addCrazyRecord = (level, name, score) => {
     return {
         type: 'ADD_CRAZY_RECORD',
+        level,
         name,
         score
     }
