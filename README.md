@@ -1,3 +1,2 @@
-# starmatch
+# Match Game
 
-starmatch game
