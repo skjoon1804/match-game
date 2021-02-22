@@ -12,7 +12,7 @@ import { ConnectedScoreboard } from '../Scoreboard/Scoreboard';
 import './Gameboard.css'
 
 const Gameboard = ({
-    game, status, time, maxStars, score, level,
+    game, status, time, maxStars,
     startNewGame, setStatus, addScore
 }) => {
 
@@ -80,13 +80,9 @@ const Gameboard = ({
     };
 
     const setGameSize = () => {
-      if (maxStars === 9) { // 3 x 3
-        return '500px';
-      } else if (maxStars === 16) { // 4 x 4
-        return '700px';
-      } else if (maxStars === 25) { // 5 x 5
-        return '800px'; 
-      }
+      if (maxStars === 9) { return '600px'; }         // 3x3
+      else if (maxStars === 16) { return '800px'; }   // 4x4
+      else if (maxStars === 25) { return '1000px'; }   // 5x5
     }
 
     return (
