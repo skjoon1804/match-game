@@ -1,16 +1,9 @@
 .number {
-  background-color: #eee;
+  background-color: white;
   display: inline-block;
-  border: thin solid #ddd;
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 60px;
   line-height: 45px;
   margin: 10px;
   font-size: 25px;
-}
-
-.number:focus,
-.number:active {
-  outline: none;
-  border: thin solid #ddd;
 }

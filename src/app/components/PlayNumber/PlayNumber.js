@@ -2,7 +2,7 @@ import React from 'react'
 import './PlayNumber.css'
 
 const colors = {
-    available: "lightgray",
+    available: "white",
     used: "lightgreen",
     wrong: "lightcoral",
     candidate: "deepskyblue",

@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { setScore } from '../../actions'
-import './PlayAgain.css'
 
 const PlayAgain = ({
     gameStatus,
@@ -15,7 +14,7 @@ const PlayAgain = ({
                     : <h3>Well Done!</h3>
                 }
             </div>
-            <button className='btn btn-outline-info mx-auto d-block p-3' onClick={onClick}>Play Again</button>
+            <button className='btn btn-outline-dark form-control border-dark' onClick={onClick}>Play Again</button>
         </div>
     )
 };
