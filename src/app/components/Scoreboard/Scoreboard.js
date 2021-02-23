@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 const Scoreboard = ({
     status, level, score
 }) => {
-
 
     return (
         <>
@@ -27,9 +26,7 @@ const Scoreboard = ({
 }
 
 const mapStateToProps = (state) => {
-    let status = state.status;
-    let level = state.level;
-    let score = state.score;
+    let { status, level, score } = state;
     return {status, level, score};
 }
 
