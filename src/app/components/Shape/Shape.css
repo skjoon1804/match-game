@@ -1,0 +1,21 @@
+.shape {
+  display: inline-block;
+  margin: 0 15px;
+  transition: transform 1s;
+  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+  /* color: #e63a3a; */
+  color: black;
+}
+
+.shape:after {
+  /*content: "\2605"; black start */
+  /*content: "\265E";  knight */
+  /*content: "\263B";  smiley face - filled */
+  /*content: "\265B"; crown */
+  /* content: "\263A"; smiley face - empty */
+  /* content: "\2639"; frowning face */
+  /*content: "\2665"; heart */
+  content: "\263A";
+  font-size: 60px;
+}
