@@ -17,27 +17,17 @@ const Leaderboard = ({
 
         if (level === 'easy') {
             addEasyRecord(level, name, score)
-            await axios.post(url + `/easy`, {
-                record: { level, name, score }
-            })
         } else if (level === 'medium') {
             addMediumRecord(level, name, score)
-            await axios.post(url + `/medium`, {
-                record: { level, name, score }
-            })
         } else if (level === 'hard') {
             addHardRecord(level, name, score)
-            await axios.post(url + `/hard`, {
-                record: { level, name, score }
-            })
-
         } else if (level === 'crazy') {
             addCrazyRecord(level, name, score)
-            await axios.post(url + `/crazy`, {
-                record: { level, name, score }
-            })
         }
-        document.getElementById("overlay").style.display = "none";
+        await axios.post(url + `/record/add`, {
+            record: { level, name, score }
+        })
+        closeOverlay(e);
     }
 
     const closeOverlay = (e) => {

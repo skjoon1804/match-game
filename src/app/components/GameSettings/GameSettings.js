@@ -12,7 +12,7 @@ const GameSettings = ( {
 
     const url = process.env.NODE_ENV == `production` ? `` : "http://localhost:8888";
     const getGameRecords = async () => {
-        const { data } = await axios.post(url + "/record");
+        const { data } = await axios.post(url + "/record/get");
         if (!data) { throw new Error(); }
         setState({...data});
     }
@@ -23,11 +23,29 @@ const GameSettings = ( {
         startEasy();
     }
 
+    const initiateMedium = (e) => {
+        e.preventDefault();
+        getGameRecords();
+        startMedium();
+    }
+
+    const initiateHard = (e) => {
+        e.preventDefault();
+        getGameRecords();
+        startHard();
+    }
+
+    const initiateCrazy = (e) => {
+        e.preventDefault();
+        getGameRecords();
+        startCrazy();
+    }
+
     return (
     <>
     <div className='container h-100 d-flex flex-column justify-content-center'>
         <div className="text-center">
-            <h1 className="text-center title d-inline">Star Match</h1>
+            <h1 className="text-center title d-inline display-3">Smiley Match</h1>
             <div className="dropdown d-inline m-2">
                 <img src="https://pics.freeicons.io/uploads/icons/png/6668767391556258248-512.png" style={{maxWidth: '20px'}}/>
                 <div className="help p-4">
@@ -76,7 +94,7 @@ const GameSettings = ( {
                             </div>               
                         </div>
                         <div className="text-center m-2">
-                            <button className="btn btn-primary form-control" onClick={() => startMedium()}>GO</button>
+                            <button className="btn btn-primary form-control" onClick={(e) => initiateMedium(e)}>GO</button>
                         </div>
                     </div>
                 </div>
@@ -96,7 +114,7 @@ const GameSettings = ( {
                             </div>               
                         </div>
                         <div className="text-center m-2">
-                            <button className="btn btn-danger form-control" onClick={() => startHard()}>GO</button>
+                            <button className="btn btn-danger form-control" onClick={(e) => initiateHard(e)}>GO</button>
                         </div>
                     </div>
                 </div>
@@ -116,7 +134,7 @@ const GameSettings = ( {
                             </div>               
                         </div>
                         <div className="text-center m-2">
-                            <button className="btn btn-dark form-control" onClick={() => startCrazy()}>GO</button>
+                            <button className="btn btn-dark form-control" onClick={(e) => initiateCrazy(e)}>GO</button>
                         </div>
                     </div>
                 </div>
