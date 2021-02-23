@@ -6,7 +6,7 @@ import { setGame, setStatus, addScore } from '../../actions'
 import { ConnectedPlayAgain } from '../PlayAgain/PlayAgain';
 import { ConnectedLeaderboard } from '../Leaderboard/Leaderboard';
 import { ConnectedTimer } from '../Timer/Timer';
-import StarsDisplay from '../StarDisplay/StarsDisplay';
+import Shape from '../Shape/Shape';
 import PlayNumber from '../PlayNumber/PlayNumber';
 import { ConnectedScoreboard } from '../Scoreboard/Scoreboard';
 import './Gameboard.css'
@@ -95,7 +95,7 @@ const Gameboard = ({
                 ? <ConnectedPlayAgain onClick={() => startNewGame(game)} gameStatus={status} className="justify-content-center"/> 
                 :   <>
                       <div className="left">
-                        <StarsDisplay count={stars}/>
+                        <Shape count={stars}/>
                       </div>
                       <div className="right">
                         {utils.range(1, maxStars).map(number =>
