@@ -55,7 +55,7 @@ const Leaderboard = ({
                                 <input type="text" className="col form-control-plaintext" id="score" value={score} readOnly />
                             </div>
                             <div className="d-flex justify-content-center">
-                                <button type="submit" className="mx-2 btn btn-dark">Submit</button>
+                                <button type="submit" className="mx-2 btn btn-secondary">Submit</button>
                                 <button onClick={(e) => closeOverlay(e)} className="mx-2 btn btn-outline-danger">Cancel</button>
                             </div>
                         </form>
@@ -64,8 +64,8 @@ const Leaderboard = ({
                 : null
             }
             <div className="leaderboard m-3 p-3">
-                <h3 className="title text-center">Leaderboard</h3>
-                <div className="container border p-3">
+                <h3 className="leaderboard-title text-center">Leaderboard</h3>
+                <div className="container border border-dark p-3">
                     <div className="row">
                         <div className="easy col-sm border-right px-auto">
                             <h6 className="text-center">Easy</h6>    
@@ -93,15 +93,14 @@ const Leaderboard = ({
                         </div>
                     </div>
                 </div>
+                <small className="text-muted d-block text-center mb-2">Top 10 scores displayed</small>
             </div>
         </>
     )
 }
 
 const mapStateToProps = (state) => {
-    let status = state.status;
-    let level = state.level;
-    let score = state.score;
+    let { status, level, score } = state;
     
     let easyGroup = state.easy.sort((a,b) => { return b.score - a.score} );
     let mediumGroup = state.medium.sort((a,b) => { return b.score - a.score} );
