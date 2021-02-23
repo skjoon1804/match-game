@@ -10,7 +10,7 @@ const GameSettings = ( {
     startEasy, startMedium, startHard, startCrazy, setState
 }) => {
 
-    const url = "http://localhost:8888";
+    const url = process.env.NODE_ENV == `production` ? `` : "http://localhost:8888";
     const getGameRecords = async () => {
         const { data } = await axios.post(url + "/record");
         if (!data) { throw new Error(); }

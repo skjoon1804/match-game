@@ -1,9 +1,8 @@
 import { MongoClient } from 'mongodb';
 
-// let url = (process.env.NODE_ENV === `production`) 
-//             ? `mongodb+srv://admin:admin@cluster0.mylms.mongodb.net/db?retryWrites=true&w=majority`
-//             : `mongodb://localhost:27017/myorganizer`;            
-let url = `mongodb://localhost:27017/matchgamedb`;
+let url = (process.env.NODE_ENV === `production`) 
+            ? `mongodb+srv://admin:admin@cluster0.mylms.mongodb.net/matchgamedb?retryWrites=true&w=majority`
+            : `mongodb://localhost:27017/matchgamedb`;  
 let db = null;
 
 export async function connectDB() {

@@ -10,7 +10,7 @@ const Leaderboard = ({
     addEasyRecord, addMediumRecord, addHardRecord, addCrazyRecord
 }) => {
 
-    const url = "http://localhost:8888";
+    const url = process.env.NODE_ENV == `production` ? `` : "http://localhost:8888";
     const submitScore = async (e) => {
         e.preventDefault();
         let name = e.target[`name`].value;
