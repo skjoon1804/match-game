@@ -30,7 +30,7 @@ const Gameboard = ({
       } else if (secondsLeft === 0) {
           setStatus("lost");
       }
-    })
+    }, [secondsLeft, availableNums, status])
   
     const setGameState = (newCandidateNums) => {
       if (utils.sum(newCandidateNums) !== stars) {
