@@ -33,5 +33,15 @@ Smiley Match was designed an built in two weeks
   - Others: ReactDOM, Babel
 - Backend
   - Node.js
+    - Keep track of the Top 10 scores in sorted order
+    ```javascript
+        if (size > 10) {
+            let sorted = updated[0].record.sort((a,b) => { return b.score - a.score; });
+            let min = sorted[sorted.length - 1];
+            await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
+        }
+    ```
   - MongoDB
+
+
 - Heroku for hosting
