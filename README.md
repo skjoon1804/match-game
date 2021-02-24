@@ -22,7 +22,7 @@ Smiley Match is a personal project by Anderson Kwon.
 
 ## Product Design
 Smiley Match was designed an built in two weeks
-- Sample State
+- [Sample State](https://github.com/skjoon1804/match-game/blob/main/src/server/defaultState.js)
 - Database Schema
 
 
