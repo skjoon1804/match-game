@@ -19,29 +19,37 @@ Smiley Match is a personal project by Anderson Kwon.
 - Leaderboard that keeps track of Top 10 scores for each levels
 - Option to save score if game is completed
 
-
 ## Product Design
+
 Smiley Match was designed an built in two weeks
+
 - [Sample State](https://github.com/skjoon1804/match-game/blob/main/src/server/defaultState.js)
 - Database Schema
 
-
 ## Technology
+
 - Frontend
   - React.js & Redux
+    - Used to keep component renders organized and reusable: action, util, reducers, and store
   - CSS & Bootstrap
-  - Others: ReactDOM, Babel
+    - Used to style
+  - Others: ReactDOM, Babel, Webpack
 - Backend
+
   - Node.js
     - Keep track of the Top 10 scores in sorted order
     ```javascript
-        if (size > 10) {
-            let sorted = updated[0].record.sort((a,b) => { return b.score - a.score; });
-            let min = sorted[sorted.length - 1];
-            await collection.updateOne({level}, {$pull: {record: {name: min.name, score: min.score}}});
-        }
+    if (size > 10) {
+      let sorted = updated[0].record.sort((a, b) => {
+        return b.score - a.score;
+      });
+      let min = sorted[sorted.length - 1];
+      await collection.updateOne(
+        { level },
+        { $pull: { record: { name: min.name, score: min.score } } }
+      );
+    }
     ```
   - MongoDB
-
 
 - Heroku for hosting
