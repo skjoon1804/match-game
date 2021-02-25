@@ -2,9 +2,8 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from '../reducers';
-import { ConnectedGame } from './Game/Game.js'
-
 import { useState } from 'react'
+import { ConnectedGame } from './Game/Game'
 
 let store = createStore(reducer);
 
